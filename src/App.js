@@ -1,24 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import Topbar from "./components/topbar/topbar";
+import Home from "./pages/Home/Home";
+import Login from './pages/login/login';
+import Register from './pages/register/register';
+import Setting from './pages/settings/setting';
+import Single from './pages/single/single';
+import Write from './pages/write/write';
+import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
+import { useContext } from 'react';
+import { Context } from './context/Context';
 
 function App() {
+  const {user}=useContext(Context);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Topbar/>
+      <Routes>
+        <Route exact path='/' element={<Home/>}/>
+        <Route path='/login' element={user?<Home/>:<Login/>}/>
+        <Route path='/register' element={user ?<Home/>:<Register/> }/>
+        <Route path='/write' element={user?<Write/>:<Register/>}/>
+        <Route path='/settings' element={user?<Setting/>:<Register/>}/>
+        <Route path='/post/:postId' element={<Single/>}/>
+      </Routes>
+    </Router>
   );
 }
 
